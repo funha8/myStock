@@ -2,15 +2,13 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import StockChart from '@/components/StockChart';
 import WatchlistButton from '@/components/WatchlistButton';
+import StockNotes from '@/components/StockNotes';
 import { getStockQuote, getStockHistory, normalizeSymbol } from '@/lib/stock-service';
 import {
   TrendingUp,
   TrendingDown,
   ArrowLeft,
-  DollarSign,
-  Activity,
   Layers,
-  Calendar,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -199,28 +197,8 @@ export default async function StockPage({ params }: StockPageProps) {
             </div>
           </div>
 
-          {/* 右側：個人策略筆記 */}
-          <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-5 space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
-              <Calendar className="h-4 w-4 text-amber-400" />
-              <h2 className="font-semibold text-white">我的投資策略筆記</h2>
-            </div>
-            <p className="text-xs text-slate-400">
-              記錄此檔股票的進場邏輯、停損點或財報觀察（儲存於 Supabase 加密資料庫）。
-            </p>
-            <textarea
-              placeholder="例如：預計跌破月線 5% 停損，目標價設定在歷史新高..."
-              rows={4}
-              className="w-full rounded-lg border border-slate-700 bg-slate-950 p-3 text-xs text-slate-200 placeholder-slate-600 focus:border-blue-500 focus:outline-none transition"
-            />
-            <button
-              type="button"
-              onClick={() => alert('筆記已儲存至 Supabase！')}
-              className="w-full rounded-lg bg-slate-800 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-700 transition"
-            >
-              儲存策略筆記
-            </button>
-          </div>
+          {/* 右側：個人策略筆記 (獨立 Client Component) */}
+          <StockNotes symbol={quote.symbol} />
         </div>
       </main>
     </div>
